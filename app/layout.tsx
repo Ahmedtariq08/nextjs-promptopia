@@ -8,20 +8,18 @@ export const metadata: Metadata = {
   description: "Discover and share AI prompts",
 };
 
-import React from "react";
-
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body>
-        <Provider>
-        <div className="main">
-          <div className="gradient"></div>
-        </div>
-        <main className="app">
-          <Nav />
-          {children}
-        </main>
+        <Provider session={null}>
+          <div className="main">
+            <div className="gradient"></div>
+          </div>
+          <main className="app">
+            <Nav />
+            {children}
+          </main>
         </Provider>
       </body>
     </html>
