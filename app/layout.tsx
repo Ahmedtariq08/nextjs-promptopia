@@ -14,7 +14,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             <body>
                 <Provider session={null}>
                     <div className="main">
-                        <div className="gradient"></div>
+                        <div className=""></div>
                     </div>
                     <main className="app">
                         <Nav />

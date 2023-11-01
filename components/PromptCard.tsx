@@ -14,10 +14,13 @@ interface PromptCardProps {
 }
 
 const PromptCard = (props: PromptCardProps) => {
+    const { data: session } = useSession();
+    const router = useRouter();
+    const pathname = usePathname();
+
     const { post, handleTagClick, handleEdit, handleDelete } = props;
     const [copied, setCopied] = useState("");
-    const { data: session } = useSession();
-    const pathname = usePathname();
+    const isPostOfUser = session?.user.id === post.creator?._id;
 
     const handleCopy = () => {
         setCopied(post.prompt);
@@ -27,10 +30,22 @@ const PromptCard = (props: PromptCardProps) => {
         }, 5000);
     };
 
+    const goToProfile = () => {
+        if (isPostOfUser) {
+            router.push("/profile");
+        } else {
+            const { _id, username } = post.creator!;
+            router.push(`/profile/other?name=${username}&id=${_id}`);
+        }
+    };
+
     return (
         <div className="prompt_card">
             <div className="flex justify-between items-start gap-5">
-                <div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
+                <div
+                    className="flex-1 flex justify-start items-center gap-3 cursor-pointer"
+                    onClick={goToProfile}
+                >
                     <Image
                         src={post.creator?.image ?? "/assets/images/user.svg"}
                         alt="user_image"
@@ -62,7 +77,7 @@ const PromptCard = (props: PromptCardProps) => {
                 {post.tag.startsWith("#") ? post.tag : `#${post.tag}`}
             </p>
 
-            {session?.user.id === post.creator?._id && pathname === "/profile" && (
+            {isPostOfUser && pathname === "/profile" && (
                 <div className="mt-5 flex-center gap-4 border-t border-gray-100 pt-3">
                     <p
                         className="font-inter text-sm green_gradient cursor-pointer"

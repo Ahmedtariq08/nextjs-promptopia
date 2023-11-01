@@ -1,10 +1,17 @@
 import { Schema, model, models } from "mongoose";
 
+interface Creator {
+    _id: string;
+    email: string;
+    username: string;
+    image: string;
+    __v: number;
+}
 export interface Post {
     prompt: string;
     tag: string;
     _id?: string;
-    creator?: Record<string, any>;
+    creator?: Creator;
 }
 
 const PromptSchema = new Schema({

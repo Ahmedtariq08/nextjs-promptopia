@@ -6,8 +6,8 @@ interface Props {
     name: string;
     desc: string;
     data: Post[];
-    handleEdit: (post: Post) => void;
-    handleDelete: (post: Post) => void;
+    handleEdit?: (post: Post) => void;
+    handleDelete?: (post: Post) => void;
 }
 
 const Profile = (props: Props) => {
