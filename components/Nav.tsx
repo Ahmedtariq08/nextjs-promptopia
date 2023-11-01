@@ -23,7 +23,7 @@ const Nav = () => {
             setProviders(response);
         };
         providerFn();
-    });
+    }, []);
 
     return (
         <nav className="flex-between w-full mb-16 pt-3">
@@ -48,7 +48,7 @@ const Nav = () => {
                         <button type="button" onClick={() => signOut()} className="outline_btn">
                             Sign Out
                         </button>
-                        <Link href={"/profile"}>
+                        <Link href={"/profile"} title="Profile">
                             <Image
                                 src={session?.user?.image || "/assets/images/logo.svg"}
                                 width={37}

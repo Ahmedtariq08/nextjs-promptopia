@@ -8,14 +8,16 @@ import React from "react";
 
 interface PromptCardProps {
     post: Post;
-    handleTagClick: (tag: string) => void;
-    handleEdit?: () => void;
-    handleDelete?: () => void;
+    handleTagClick?: (tag: string) => void;
+    handleEdit?: (post: Post) => void;
+    handleDelete?: (post: Post) => void;
 }
 
 const PromptCard = (props: PromptCardProps) => {
-    const { post, handleTagClick } = props;
+    const { post, handleTagClick, handleEdit, handleDelete } = props;
     const [copied, setCopied] = useState("");
+    const { data: session } = useSession();
+    const pathname = usePathname();
 
     const handleCopy = () => {
         setCopied(post.prompt);
@@ -30,7 +32,7 @@ const PromptCard = (props: PromptCardProps) => {
             <div className="flex justify-between items-start gap-5">
                 <div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
                     <Image
-                        src={post.creator?.image}
+                        src={post.creator?.image ?? "/assets/images/user.svg"}
                         alt="user_image"
                         width={40}
                         height={40}
@@ -59,6 +61,23 @@ const PromptCard = (props: PromptCardProps) => {
             >
                 {post.tag.startsWith("#") ? post.tag : `#${post.tag}`}
             </p>
+
+            {session?.user.id === post.creator?._id && pathname === "/profile" && (
+                <div className="mt-5 flex-center gap-4 border-t border-gray-100 pt-3">
+                    <p
+                        className="font-inter text-sm green_gradient cursor-pointer"
+                        onClick={() => handleEdit && handleEdit(post)}
+                    >
+                        Edit
+                    </p>
+                    <p
+                        className="font-inter text-sm orange_gradient cursor-pointer"
+                        onClick={() => handleDelete && handleDelete(post)}
+                    >
+                        Delete
+                    </p>
+                </div>
+            )}
         </div>
     );
 };
