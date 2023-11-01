@@ -10,18 +10,21 @@ const ProfilePage = () => {
     const { data: session } = useSession();
     const router = useRouter();
     const [posts, setPosts] = useState<Post[]>([]);
+    const userId = session?.user.id;
+    const isUserSignedIn = userId != null;
 
     useEffect(() => {
         const fetchPosts = async () => {
-            const userId = session?.user.id;
             const response = await fetch(`/api/users/${userId}/posts`);
             const data = await response.json();
             setPosts(data);
         };
-        if (session?.user.id) {
+        if (isUserSignedIn) {
             fetchPosts();
+        } else {
+            router.push("/");
         }
-    }, [session?.user.id]);
+    }, [isUserSignedIn, router, userId]);
 
     const handleEdit = (post: Post) => {
         router.push(`/update-prompt?id=${post._id}`);
@@ -43,13 +46,15 @@ const ProfilePage = () => {
     };
 
     return (
-        <Profile
-            name="My"
-            desc="Welcome to your personalized profile page"
-            data={posts}
-            handleEdit={handleEdit}
-            handleDelete={handleDelete}
-        />
+        isUserSignedIn && (
+            <Profile
+                name="My"
+                desc="Welcome to your personalized profile page"
+                data={posts}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+            />
+        )
     );
 };
 

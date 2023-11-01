@@ -5,38 +5,66 @@ import PromptCard from "./PromptCard";
 import { Post } from "@models/prompt";
 
 const Feed = () => {
-    const [searchText, setSearchText] = useState<string>("");
-    const [posts, setPosts] = useState<Post[]>([]);
+    const [allPosts, setAllPosts] = useState<Post[]>([]);
+
+    // Search states
+    const [searchText, setSearchText] = useState("");
+    const [searchTimeout, setSearchTimeout] = useState<any>(null);
+    const [searchedResults, setSearchedResults] = useState<Post[]>([]);
+
+    const fetchPosts = async () => {
+        const response = await fetch("/api/prompt");
+        const data = await response.json();
+        setAllPosts(data);
+        setSearchedResults(data);
+    };
 
     useEffect(() => {
-        const fetchPosts = async () => {
-            const response = await fetch("/api/prompt");
-            const data = await response.json();
-            setPosts(data);
-        };
         fetchPosts();
     }, []);
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
+    const filterPrompts = (searchtext: string) => {
+        const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
+        return allPosts.filter(
+            (post) => regex.test(post.creator?.username) || regex.test(post.tag) || regex.test(post.prompt),
+        );
+    };
 
-    const handleTagClick = (tag: string) => {
-        //
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        clearTimeout(searchTimeout);
+        setSearchText(e.target.value);
+
+        // debounce method
+        setSearchTimeout(
+            setTimeout(() => {
+                const searchResult = filterPrompts(e.target.value);
+                setSearchedResults(searchResult);
+            }, 500),
+        );
+    };
+
+    const handleTagClick = (tagName: string) => {
+        setSearchText(tagName);
+
+        const searchResult = filterPrompts(tagName);
+        setSearchedResults(searchResult);
     };
 
     return (
         <section className="feed">
             <form className="relative w-full flex-center">
                 <input
-                    type="text"
+                    type="search"
                     placeholder="Search for a tag or a username"
                     value={searchText}
                     onChange={handleSearchChange}
                     required
+                    spellCheck={false}
                     className="search_input peer"
                 ></input>
             </form>
 
-            <PromptCardList data={posts} handleTagClick={handleTagClick} />
+            <PromptCardList data={searchedResults} handleTagClick={handleTagClick} />
         </section>
     );
 };
