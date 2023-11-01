@@ -1,6 +1,6 @@
-import { Post } from "@app/create-prompt/page";
 import React from "react";
 import Link from "next/link";
+import { Post } from "@models/prompt";
 interface FormProps {
   type: "Create" | "SOmethingelese";
   post: Post;
