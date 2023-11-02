@@ -28,9 +28,17 @@ This project is built using the following technologies and tools:
 <!-- ![Filter](demo/filter-tag.png) -->
 <img src="demo/filter-tag.png" alt="filter" width="800"/>
 
+### Google Authentication
+<img src="demo/google-signin.png" alt="google" width="800"/>
+
+### My Profile
+<img src="demo/my-profile.png" alt="profile" width="800"/>
 
 ### Create Post
 <img src="demo/create-post.png" alt="create" width="800"/>
+
+### Edit Post
+<img src="demo/edit-post.png" alt="edit" width="800"/>
 
 
 
