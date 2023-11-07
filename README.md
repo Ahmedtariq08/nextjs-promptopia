@@ -1,10 +1,9 @@
-# Promptopia Application
+# Promptopia
 
 ## Description
 
-**Promptopia** user interface (UI) gives users capability to generate and use AI powered useful prompts. \
+**Promptopia** gives users capability to generate and use AI powered useful prompts. \
 Insipiration taken from the [Jsmastery Nextjs playlist](https://www.youtube.com/watch?v=wm5gMKuwSYk&list=PL6QREj8te1P7gixBDSU8JLvQndTEEX3c3&index=3) 
-
 
 ## Tech Stack
 
@@ -16,6 +15,10 @@ This project is built using the following technologies and tools:
 - **Tailwind CSS:**
 - **MondoDB**
 - **Next-Auth**
+
+### How can this repo be helpful for me later?
+- My first project with Nextjs
+- Implementing Google authentication in Nextjs
 
 ## Demo
 
